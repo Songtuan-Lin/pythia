@@ -167,7 +167,8 @@ class ImageNetDataset(BaseDataset):
         # generate image features
         image_path = os.path.join(self.image_dir, image_folder, image_id)
         image, image_scale = self._image_transform(image_path)
-        image_features = self.feature_extractor([image], [image_scale])
+        with torch.no_grad():
+            image_features = self.feature_extractor([image], [image_scale])
         image_features = image_features[0]
         sample.image_feature_0 = image_features
         return sample
