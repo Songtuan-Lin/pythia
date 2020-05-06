@@ -172,3 +172,9 @@ class ImageNetDataset(BaseDataset):
         image_features = image_features[0]
         sample.image_feature_0 = image_features.cpu()
         return sample
+
+    def get_item(self, idx):
+        return self.load_item(idx)
+
+    def __len__(self):
+        return len(self.annotations)
