@@ -15,6 +15,7 @@ class ImageNetBuilder(BaseDatasetBuilder):
         Pythia dataset builder, will be called in BaseTask
         '''
         super().__init__('imagenet')
+        self.dataset_name = "imagenet"
         self.writer = registry.get("writer")
 
     def _build(self, dataset_type, config):
@@ -35,3 +36,9 @@ class ImageNetBuilder(BaseDatasetBuilder):
             coco_builder_instance.build(dataset_type, attributes)
             self.dataset = coco_builder_instance.load(dataset_type, attributes)
         return self.dataset
+
+    def update_registry_for_model(self, config):
+        registry.register(
+            self.dataset_name + "_text_vocab_size",
+            self.dataset.text_processor.get_vocab_size(),
+        )
