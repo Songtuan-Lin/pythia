@@ -223,6 +223,8 @@ class BaseTrainer:
             self.task_loader.seed_sampler("train", self.current_epoch)
 
             if self.current_epoch > self.max_epochs:
+                print(self.current_epoch)
+                print(self.max_epochs)
                 break
 
             for batch in self.train_loader:
@@ -264,7 +266,7 @@ class BaseTrainer:
 
     def _backward(self, loss):
         self.optimizer.zero_grad()
-        print(loss)
+        # print(loss)
         loss.backward()
 
         if self.should_clip_gradients:
