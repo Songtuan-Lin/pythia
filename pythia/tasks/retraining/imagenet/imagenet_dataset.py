@@ -156,15 +156,14 @@ class ImageNetDataset(BaseDataset):
         caption = self.annotations[idx][1]
         tokens = tokenize(caption)
         tokens = ['<s>'] + tokens + ['</s>']
-        print(caption)
-        print(tokens)
         # use text_processor to process caption
         # pad sequence, convert token to indices and add SOS, EOS token
         # text_processor already contains a pre-processor to tokenize caption
         caption_p = self.text_processor({'tokens': tokens})
         sample.text = caption_p['text']
         sample.caption_len = torch.tensor(len(tokens), dtype=torch.int)
-        sample.target = caption_p['text']
+        # sample.target = caption_p['text']
+        sample.answers = torch.stack([caption_p['text']])
         # generate image features
         image_path = os.path.join(self.image_dir, image_folder, image_id)
         image, image_scale = self._image_transform(image_path)
