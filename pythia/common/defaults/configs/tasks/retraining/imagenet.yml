@@ -16,7 +16,7 @@ task_attributes:
                       vocab:
                         type: intersected
                         embedding_name: glove.6B.300d
-                        vocab_file: vocabulary_captioning_thresh5.txt
+                        vocab_file: model_data/vocabulary_captioning_thresh5.txt
                       preprocessor:
                         type: simple_sentence
                         params: {}
