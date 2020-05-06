@@ -34,9 +34,7 @@ model_attributes:
         bias_file: detectron/fc6/fc7_b.pkl
         weights_file: detectron/fc6/fc7_w.pkl
     inference:
-      type: beam_search
-      params:
-        beam_length: 1
+      type: greedy
 optimizer_attributes:
   type: Adamax
   params:
@@ -55,11 +53,12 @@ training_parameters:
   - 45000
   max_grad_l2_norm: 0.25
   max_iterations: 1
+  max_epoch: 1
   use_warmup: true
   warmup_factor: 0.2
   warmup_iterations: 1000
   patience: 4000
-  batch_size: 1
+  batch_size: 5
   num_workers: 0
   task_size_proportional_sampling: true
   monitored_metric: caption_bleu4
