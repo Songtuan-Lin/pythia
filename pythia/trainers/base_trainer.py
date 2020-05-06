@@ -215,16 +215,20 @@ class BaseTrainer:
         torch.autograd.set_detect_anomaly(True)
 
         self.writer.write("Starting training...")
+        print('Max Iterations:')
+        print(self.max_iterations)
+        print('\n')
         while self.current_iteration < self.max_iterations and not should_break:
             self.current_epoch += 1
             registry.register("current_epoch", self.current_epoch)
+            print('Current epoch is:')
+            print(self.current_epoch)
+            print('\n')
 
             # Seed the sampler in case if it is distributed
             self.task_loader.seed_sampler("train", self.current_epoch)
 
             if self.current_epoch > self.max_epochs:
-                print(self.current_epoch)
-                print(self.max_epochs)
                 break
 
             for batch in self.train_loader:
@@ -245,6 +249,7 @@ class BaseTrainer:
                 should_break = self._logistics(report)
 
                 if should_break:
+                    print('break\n')
                     break
 
         self.finalize()
