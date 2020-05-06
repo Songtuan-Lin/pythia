@@ -2,7 +2,7 @@ from pythia.common.registry import registry
 from pythia.tasks import BaseTask
 
 
-@registry.register_task(retraining)
+@registry.register_task('retraining')
 class RetrainingTask(BaseTask):
     def __init__(self):
         super(RetrainingTask, self).__init__('retraining')
