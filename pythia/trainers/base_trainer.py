@@ -264,6 +264,7 @@ class BaseTrainer:
 
     def _backward(self, loss):
         self.optimizer.zero_grad()
+        print(loss)
         loss.backward()
 
         if self.should_clip_gradients:
