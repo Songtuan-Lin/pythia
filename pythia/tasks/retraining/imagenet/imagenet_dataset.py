@@ -152,6 +152,7 @@ class ImageNetDataset(BaseDataset):
     def load_item(self, idx):
         sample = Sample()
         image_id = self.annotations[idx][0]
+        image_folder = image_id.split('_')[0]
         caption = self.annotations[idx][1]
         tokens = tokenize(caption)
         tokens = ['<s>'] + tokens + ['</s>']
@@ -165,7 +166,7 @@ class ImageNetDataset(BaseDataset):
         sample.caption_len = torch.tensor(len(tokens), dtype=torch.int)
         sample.target = caption_p['text']
         # generate image features
-        image_path = os.path.join(self.image_dir, image_id)
+        image_path = os.path.join(self.image_dir, image_folder, image_id)
         image, image_scale = self._image_transform(image_path)
         image_features = self.feature_extractor([image], [image_scale])
         image_features = image_features[0]
