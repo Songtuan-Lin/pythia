@@ -60,7 +60,7 @@ training_parameters:
   warmup_iterations: 1000
   patience: 4000
   batch_size: 256
-  num_workers: 7
+  num_workers: 1
   task_size_proportional_sampling: true
   monitored_metric: caption_bleu4
   metric_minimize: false
