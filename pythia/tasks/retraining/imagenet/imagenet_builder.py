@@ -16,6 +16,10 @@ class ImageNetBuilder(BaseDatasetBuilder):
         '''
         super().__init__('imagenet')
         self.writer = registry.get("writer")
+
+    def _build(self, dataset_type, config):
+        # TODO: Build actually here
+        return
         
     def _load(self, dataset_type, config, *args, **kwargs):
         if dataset_type == 'train':
