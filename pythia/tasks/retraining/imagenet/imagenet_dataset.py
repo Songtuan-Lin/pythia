@@ -170,5 +170,5 @@ class ImageNetDataset(BaseDataset):
         with torch.no_grad():
             image_features = self.feature_extractor([image], [image_scale])
         image_features = image_features[0]
-        sample.image_feature_0 = image_features
+        sample.image_feature_0 = image_features.cpu()
         return sample
