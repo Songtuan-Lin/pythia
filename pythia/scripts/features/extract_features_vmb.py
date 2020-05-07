@@ -22,6 +22,7 @@ from maskrcnn_benchmark.modeling.detector import build_detection_model
 from maskrcnn_benchmark.structures.image_list import to_image_list
 from maskrcnn_benchmark.utils.model_serialization import load_state_dict
 from pythia.utils.general import download_file
+from pythia.utils.general import get_pythia_root
 
 
 class FeatureExtractor:
@@ -250,7 +251,7 @@ class FeatureExtractor:
         annotations = []
         annotation_dir = self.args.annotation_dir
         for annotation_file in os.listdir(annotation_dir):
-            with open(annotation_file) as f:
+            with open(os.path.join(annotation_dir, annotation_file)) as f:
                 annotation = json.load(f)
                 for item in annotation.items():
                     annotations.append(item)
