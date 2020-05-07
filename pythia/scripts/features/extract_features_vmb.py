@@ -9,6 +9,7 @@
 import argparse
 import glob
 import os
+import json
 
 import cv2
 import numpy as np
@@ -49,6 +50,9 @@ class FeatureExtractor:
 
     def get_parser(self):
         parser = argparse.ArgumentParser()
+        parser.add_argument(
+            "--annotation_dir", type=str, help="annotation directory"
+        )
         parser.add_argument(
             "--model_file", default=None, type=str, help="Detectron model file"
         )
@@ -218,15 +222,40 @@ class FeatureExtractor:
     def extract_features(self):
         image_dir = self.args.image_dir
 
-        if os.path.isfile(image_dir):
-            features, infos = self.get_detectron_features([image_dir])
-            self._save_feature(image_dir, features[0], infos[0])
-        else:
-            files = glob.glob(os.path.join(image_dir, "*.jpg"))
-            for chunk in self._chunks(files, self.args.batch_size):
-                features, infos = self.get_detectron_features(chunk)
-                for idx, file_name in enumerate(chunk):
-                    self._save_feature(file_name, features[idx], infos[idx])
+        # if os.path.isfile(image_dir):
+        #     features, infos = self.get_detectron_features([image_dir])
+        #     self._save_feature(image_dir, features[0], infos[0])
+        # else:
+        #     files = glob.glob(os.path.join(image_dir, "*.jpg"))
+        #     for chunk in self._chunks(files, self.args.batch_size):
+        #         features, infos = self.get_detectron_features(chunk)
+        #         for idx, file_name in enumerate(chunk):
+        #             self._save_feature(file_name, features[idx], infos[idx])
+        
+        image_files = []
+        annotations = self.load_annotations()
+        annotations_array = np.asarray(annotations)
+        for annotation in annotations:
+            image_id = annotation[0]
+            image_folder = image_id.split('_')[0]
+            image_file = os.path.join(image_dir, image_folder, image_id)
+            image_files.append(image_file)
+
+        for chunk in self._chunks(image_files, self.args.batch_size):
+            features, infos = self.get_detectron_features(chunk)
+            for idx, file_name in enumerate(chunk):
+                self._save_feature(file_name, features[idx], infos[idx])
+
+    def load_annotations(self):
+        annotations = []
+        annotation_dir = self.args.annotation_dir
+        for annotation_file in os.listdir(annotation_dir):
+            with open(annotation_file) as f:
+                annotation = json.load(f)
+                for item in annotation.items():
+                    annotations.append(item)
+        return annotations
+
 
 
 if __name__ == "__main__":
