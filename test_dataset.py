@@ -5,7 +5,7 @@ import os
 
 from pythia.utils.configuration import Configuration
 from pythia.common.registry import registry
-from pythia.tasks.retraining.imagenet.imagenet_builder import ImageNetBuilder
+from pythia.tasks.captioning.coco.builder import COCOBuilder
 
 
 def setup_imports():
@@ -70,16 +70,18 @@ def setup_imports():
             )
 
 setup_imports()
-configuration = Configuration('pythia/common/defaults/configs/tasks/retraining/imagenet.yml')
+configuration = Configuration('pythia/common/defaults/configs/tasks/captioning/imagenet.yml')
 configuration.freeze()
 config = configuration.get_config()
 registry.register("config", config)
 registry.register("configuration", configuration)
-dataset_config = config.task_attributes.retraining.dataset_attributes.imagenet
+dataset_config = config.task_attributes.captioning.dataset_attributes.coco
     
-imagenet_builder = ImageNetBuilder()
-dataset_train = imagenet_builder._load('train', dataset_config)
-dataset_val = imagenet_builder._load('val', dataset_config)
+builder = COCOBuilder()
+dataset_train = builder._load('train', dataset_config)
+dataset_train.init_processors()
+dataset_val = builder._load('val', dataset_config)
+dataset_val.init_processors()
 
 print(dataset_train.load_item(6))
 print('************************')
