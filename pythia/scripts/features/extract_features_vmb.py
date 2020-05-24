@@ -243,9 +243,16 @@ class FeatureExtractor:
             image_files.append(image_file)
 
         for chunk in self._chunks(image_files, self.args.batch_size):
-            features, infos = self.get_detectron_features(chunk)
-            for idx, file_name in enumerate(chunk):
-                self._save_feature(file_name, features[idx], infos[idx])
+            for file_name in chunk:
+                file_base_name = os.path.basename(file_name)
+                file_base_name = file_base_name.split(".")[0]
+                file_base_name = file_base_name + ".npy"
+                if os.path.exists(os.path.join(self.args.output_folder, file_base_name)):
+                    chunk.pop(0)
+            if len(chunk) != 0:
+                features, infos = self.get_detectron_features(chunk)
+                for idx, file_name in enumerate(chunk):
+                    self._save_feature(file_name, features[idx], infos[idx])
 
     def load_annotations(self):
         annotations = []
