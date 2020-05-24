@@ -1,4 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates.
+# python tools/run.py --tasks retraining --datasets imagenet --model butd --config configs/retraining/retraining.yml --resume_file data/model_data/butd.pth --run_type train+val+inference 
 import glob
 import importlib
 import os

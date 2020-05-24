@@ -22,7 +22,7 @@ class AnnotationReader:
 
     def build(self, annotations):
         targets = []
-        for annotation in annotations:
+        for idx, annotation in enumerate(annotations):
             image_id = annotation[0].split('.')[0]
             image_name = image_id
             caption_str = annotation[1]
@@ -31,7 +31,8 @@ class AnnotationReader:
             reference_tokens = [caption_tokenes]
             feature_path = image_id + '.npy'
             target = {
-                'image_id': image_id,
+                # 'image_id': image_id,
+                'image_id': idx,
                 'image_name': image_name,
                 'caption_str': caption_str,
                 'caption_tokens': caption_tokenes,
