@@ -23,7 +23,7 @@ class AnnotationReader:
     def build(self, annotations):
         targets = []
         for annotation in annotations:
-            image_id = annotation[0]
+            image_id = annotation[0].split('.')[0]
             image_name = image_id
             caption_str = annotation[1]
             caption_tokenes = tokenize(caption_str)
@@ -34,7 +34,7 @@ class AnnotationReader:
                 'image_id': image_id,
                 'image_name': image_name,
                 'caption_str': caption_str,
-                'caption_tokenes': caption_tokenes,
+                'caption_tokens': caption_tokenes,
                 'reference_tokens': reference_tokens,
                 'feature_path': feature_path
             }

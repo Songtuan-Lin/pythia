@@ -10,7 +10,8 @@ task_attributes:
                 fast_read: false
                 image_features:
                     train:
-                    - imagenet
+                    - imagenet_features
+                    - coco/detectron_fix_100/fc6/train_val_2014
                     val:
                     - coco/detectron_fix_100/fc6/train_val_2014
                     test:
@@ -18,6 +19,7 @@ task_attributes:
                 imdb_files:
                     train:
                     - imdb/imagenet_annotations/imdb_imagenet.npy
+                    - imdb/coco_captions/imdb_karpathy_train.npy
                     val:
                     - imdb/coco_captions/imdb_karpathy_val.npy
                     test:
